@@ -35,11 +35,12 @@ import com.myhabit.service.HabitService;
 
 public class HabitServiceImpl<E extends Habit> extends BaseServiceImpl<E> implements HabitService<E> {
 
-	@Autowired
-	HabitRepository<E> habitRepository;
 
-	public HabitServiceImpl() {
-
+	private HabitRepository<E> habitRepository;
+	
+	public HabitServiceImpl(HabitRepository<E> habitRepository) {
+		// TODO Auto-generated constructor stub
+		this.habitRepository = habitRepository;
 	}
 
 	public List<E> findHabitByUserId(String userId) {
@@ -149,7 +150,7 @@ public class HabitServiceImpl<E extends Habit> extends BaseServiceImpl<E> implem
 
 		
 		// Staistical default value 
-		for(LocalDate start = startDate; start.isBefore(endDate) ;start = start.plusDays(1)) {
+		for(LocalDate start = startDate; start.isBefore(endDate) || start.isEqual(endDate) ;start = start.plusDays(1)) {
 			StaisticalHabitDTO item = new StaisticalHabitDTO();
 			item.total = 0f;
 			item.createAt = start;

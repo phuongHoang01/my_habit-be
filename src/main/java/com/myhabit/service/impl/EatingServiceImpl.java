@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -34,14 +35,18 @@ import net.bytebuddy.asm.Advice.This;
 @Service
 public class EatingServiceImpl extends HabitServiceImpl<EatingHabit> implements EatingHabitService{
 	
-	@Autowired
+
 	private UserRepository userRepository;
 	
-	@Autowired
+
 	private EatingHabitRepository eatingHabitRepository;
 	
-	public EatingServiceImpl() {
-	
+	public EatingServiceImpl(
+		@Qualifier("eatingHabitRepository") EatingHabitRepository eatingHabitRepository, 
+			UserRepository userRepository) {
+		super(eatingHabitRepository);
+		this.userRepository = userRepository;
+		this.eatingHabitRepository = eatingHabitRepository;
 	}
 	
 	public List<EatingHabitByIUserIdDTO> findEatingHabitByIUserId(String userId) {
@@ -51,7 +56,7 @@ public class EatingServiceImpl extends HabitServiceImpl<EatingHabit> implements 
 	}
 	
 	public void inputCalo(InputEatingHabitCaloDTO inputEatingHabitCaloDTO) {
-		Optional<EatingHabit> eatingHabit = super.findHabitByCurrentDay(LocalDate.now());
+		Optional<EatingHabit> eatingHabit = findHabitByCurrentDay(LocalDate.now());
 		
 		UserPrincipal currentLoginUser = UserHelper.getCurrentUserLoginInSystem();
 		
@@ -60,7 +65,8 @@ public class EatingServiceImpl extends HabitServiceImpl<EatingHabit> implements 
 		if(!eatingHabit.isPresent()) {
 			eatingHabit = Optional.of(convertToEntity(inputEatingHabitCaloDTO));
 			eatingHabit.get()
-			.setId(id);
+			.setId(id)
+			.setCreateBy(currentLoginUser.getId());
 		}	
 		else {
 			eatingHabit
@@ -71,7 +77,6 @@ public class EatingServiceImpl extends HabitServiceImpl<EatingHabit> implements 
 		}
 		
 		eatingHabit.get()
-		.setCreateBy(currentLoginUser.getId())
 		.setUpdateBy(currentLoginUser.getId())
 		.setUserId(currentLoginUser.getId())
 		.setTotal(updateTotalCalo(

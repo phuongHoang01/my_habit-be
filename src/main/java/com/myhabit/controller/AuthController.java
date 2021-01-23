@@ -96,7 +96,7 @@ public class AuthController {
 				return new ResponseEntity(UPDATE_SUCCESS,HttpStatus.ACCEPTED);
 			}
 			
-			return new ResponseEntity(NO_EMAIL,HttpStatus.OK);
+			return new ResponseEntity(NO_EMAIL,HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);

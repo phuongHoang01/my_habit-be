@@ -3,40 +3,68 @@ package com.myhabit.service.impl;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.myhabit.common.helper.RandomString;
 import com.myhabit.common.helper.UserHelper;
-import com.myhabit.dto.eating_habit.InputEatingHabitCaloDTO;
+import com.myhabit.dto.drinking_habit.InputDrinkingHabitDTO;
 import com.myhabit.entities.DrinkingHabit;
 import com.myhabit.entities.EatingHabit;
 import com.myhabit.entities.UserPrincipal;
-import com.myhabit.service.DrinkHabitService;
-import com.myhabit.service.HabitService;
-@Service
-public class DrinkingHabitSerivceImpl extends HabitServiceImpl<DrinkingHabit> implements DrinkHabitService{
+import com.myhabit.repository.DrinkingHabitRepository;
 
-	/*
-	 * public void inputMiliWater(InputEatingHabitCaloDTO inputEatingHabitCaloDTO) {
-	 * Optional<EatingHabit> eatingHabit =
-	 * super.findHabitByCurrentDay(LocalDate.now());
-	 * 
-	 * UserPrincipal currentLoginUser = UserHelper.getCurrentUserLoginInSystem();
-	 * 
-	 * String id = RandomString.randomIdString();
-	 * 
-	 * if(!eatingHabit.isPresent()) { eatingHabit =
-	 * Optional.of(convertToEntity(inputEatingHabitCaloDTO)); eatingHabit.get()
-	 * .setId(id); } else { eatingHabit .get()
-	 * .setBreakfastCalo(inputEatingHabitCaloDTO.getBreakfastCalo())
-	 * .setLunchCalo(inputEatingHabitCaloDTO.getLunchCalo())
-	 * .setDinnerCalo(inputEatingHabitCaloDTO.getDinnerCalo()); }
-	 * 
-	 * eatingHabit.get() .setCreateBy(currentLoginUser.getId())
-	 * .setUpdateBy(currentLoginUser.getId()) .setUserId(currentLoginUser.getId())
-	 * .setTotal(updateTotalCalo( eatingHabit.get().getBreakfastCalo(),
-	 * eatingHabit.get().getLunchCalo(), eatingHabit.get().getDinnerCalo()) );
-	 * 
-	 * this.eatingHabitRepository.save(eatingHabit.get()); }
-	 */
+import com.myhabit.service.DrinkingHabitService;
+import com.myhabit.service.HabitService;
+
+@Service
+public class DrinkingHabitSerivceImpl extends HabitServiceImpl<DrinkingHabit> implements DrinkingHabitService {
+	
+	
+	private DrinkingHabitRepository drinkingHabitRepository;
+	
+	public DrinkingHabitSerivceImpl(
+		@Qualifier("drinkingHabitRepository")	
+		DrinkingHabitRepository drinkingHabitRepository) {
+		super(drinkingHabitRepository);
+		this.drinkingHabitRepository = drinkingHabitRepository;
+	}
+	
+
+	public void inputMiliWater(InputDrinkingHabitDTO inputDrinkingHabitDTO) {
+		Optional<DrinkingHabit> drinkingHabit = findHabitByCurrentDay(LocalDate.now());
+
+		UserPrincipal currentLoginUser = UserHelper.getCurrentUserLoginInSystem();
+
+		String id = RandomString.randomIdString();
+
+		if (!drinkingHabit.isPresent()) {
+			drinkingHabit = Optional.of(convertToEntity(inputDrinkingHabitDTO));
+			drinkingHabit.get()
+			.setCreateBy(currentLoginUser.getId());
+			drinkingHabit.get().setId(id);
+		} 
+
+		drinkingHabit.get()
+			.setUpdateBy(currentLoginUser.getId())
+			.setUserId(currentLoginUser.getId())
+			.setTotal(inputDrinkingHabitDTO.total);
+
+		this.drinkingHabitRepository.save(drinkingHabit.get());
+	}
+	
+	public <CDTO> CDTO convertToDTO(DrinkingHabit drinkingHabit, Class<CDTO> T) {
+		ModelMapper modelMapper = new ModelMapper();
+		CDTO dto = modelMapper.map(drinkingHabit, T);
+		return dto;
+	}
+
+	public DrinkingHabit convertToEntity(Object dto) {
+		ModelMapper modelMapper = new ModelMapper();
+		DrinkingHabit entity = modelMapper.map(dto, DrinkingHabit.class);
+		return entity;
+	}
+	
+
 }

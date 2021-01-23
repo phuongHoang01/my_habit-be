@@ -19,6 +19,7 @@ public class DrinkingHabit extends Habit {
 	@JoinColumn(name = "user_id", insertable = false, updatable = false)
 	public User user;
 	
+	
 	public boolean isActive() {
 		return this.active;
 	}
@@ -52,6 +53,15 @@ public class DrinkingHabit extends Habit {
 
 	public DrinkingHabit setUserId(String userId) {
 		this.userId = userId;
+		return this;
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public DrinkingHabit setId(String id) {
+		this.id = id;
 		return this;
 	}
 	

@@ -18,6 +18,7 @@ public class Habit extends BaseEntity {
 
 	private String description;
 	protected Float total;
+	protected float point;
 
 	public String getDescription() {
 		return description;

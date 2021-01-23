@@ -7,9 +7,9 @@ import java.time.LocalTime;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import com.myhabit.common.helper.DateTimeHelper;
 import com.myhabit.common.helper.RandomString;
 import com.myhabit.common.helper.UserHelper;
@@ -25,12 +25,15 @@ public class SleepingHabitServiceImpl extends HabitServiceImpl<SleepingHabit>
 	
 	SleepingHabitResponsitory sleepingHabitResponsitory;
 	
-	public SleepingHabitServiceImpl(SleepingHabitResponsitory sleepingHabitResponsitory) {
+	public SleepingHabitServiceImpl(
+			@Qualifier("sleepingHabitResponsitory")
+			SleepingHabitResponsitory sleepingHabitResponsitory) {
+		super(sleepingHabitResponsitory);
 		this.sleepingHabitResponsitory = sleepingHabitResponsitory;
 	}
 	
 	public void inputSleepingHabit(InputSleepingHourDTO inputSleepingHourDTO) {
-		Optional<SleepingHabit> sleepingHabit = super.findHabitByCurrentDay(LocalDate.now());
+		Optional<SleepingHabit> sleepingHabit = findHabitByCurrentDay(LocalDate.now());
 		
 		UserPrincipal currentLoginUser = UserHelper.getCurrentUserLoginInSystem();
 		

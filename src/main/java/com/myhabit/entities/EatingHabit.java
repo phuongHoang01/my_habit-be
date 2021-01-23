@@ -34,7 +34,11 @@ public class EatingHabit extends Habit {
 	@ManyToOne
 	@JoinColumn(name = "user_id",insertable = false, updatable = false)
 	private User user;
-	
+
+	@Column(name = "advice_id")
+	private String adviceId;
+
+
 	public String getId() {
 		return id;
 	}
