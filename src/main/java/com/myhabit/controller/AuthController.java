@@ -63,8 +63,6 @@ public class AuthController {
 					.authenticate(new UsernamePasswordAuthenticationToken(
 							loginInfo.getUserName(), loginInfo.getPassword()));
 			
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			
 			return new ResponseEntity(JWTProvider.generateToken(authentication) ,HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();

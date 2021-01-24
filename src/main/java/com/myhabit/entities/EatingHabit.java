@@ -30,16 +30,12 @@ public class EatingHabit extends Habit implements Serializable{
 	@Column(name = "dinner_calo")
 	private float dinnerCalo;
 	
-	@Column(name = "user_id")
+	@Column(name = "user_id", nullable = false)
 	private String userId;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id",insertable = false, updatable = false)
 	private User user;
-
-	@Column(name = "advice_id")
-	private String adviceId;
-
 
 	public String getId() {
 		return id;

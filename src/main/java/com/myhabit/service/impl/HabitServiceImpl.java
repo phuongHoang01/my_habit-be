@@ -76,10 +76,11 @@ public class HabitServiceImpl<E extends Habit> extends BaseServiceImpl<E> implem
 	public List<StaisticalHabitDTO> getTotalInMonth(String month) {
 		LocalDate firstDateOfMonth = DateTimeHelper.getFirstDayOfMonth(month);
 		LocalDate lastDateOfMonth = DateTimeHelper.getLastDateOfMonth(month);
+		String userId = UserHelper.getCurrentUserLoginInSystem().getId();
 		List<StaisticalHabitDTO> staisticalHabitDTOs = this.habitRepository.findHabitByCreateAtBetween(
 				firstDateOfMonth, 
 				lastDateOfMonth,
-				UserHelper.getCurrentUserLoginInSystem().getId()
+				userId
 				)
 				.stream()
 				.map(habit -> {

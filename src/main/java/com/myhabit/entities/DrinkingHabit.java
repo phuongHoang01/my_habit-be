@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @DiscriminatorValue("1")
 public class DrinkingHabit extends Habit implements Serializable {
 	
-	@Column(name = "user_id")
+	@Column(name = "user_id", nullable = false)
 	private String userId;
 	
 	@ManyToOne
