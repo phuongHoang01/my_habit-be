@@ -1,11 +1,13 @@
 package com.myhabit.entities;
 
+import java.io.Serializable;
 import java.security.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,7 +20,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "sleeping_habits")
-public class SleepingHabit extends Habit {
+@DiscriminatorValue("3")
+public class SleepingHabit extends Habit implements Serializable {
 	
 	
 	@Column(name = "from_hour")

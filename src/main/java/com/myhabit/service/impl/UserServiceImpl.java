@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.Module.SetupContext;
 import com.myhabit.common.helper.DateTimeHelper;
 import com.myhabit.common.helper.RandomString;
+import com.myhabit.core.BaseRepository;
 import com.myhabit.core.BaseServiceImpl;
 import com.myhabit.dto.user.ForgetPasswordUserDTO;
 import com.myhabit.dto.user.LoginUserDTO;
@@ -22,8 +23,10 @@ import com.myhabit.dto.user.UserDTO;
 import com.myhabit.dto.user.UserProfileDTO;
 import com.myhabit.entities.EatingHabit;
 import com.myhabit.entities.Role;
+import com.myhabit.entities.SleepingHabit;
 import com.myhabit.entities.User;
 import com.myhabit.entities.UserPrincipal;
+import com.myhabit.repository.HabitRepository;
 import com.myhabit.repository.RoleRepositiory;
 import com.myhabit.repository.UserRepository;
 import com.myhabit.service.UserService;
@@ -38,9 +41,11 @@ public class UserServiceImpl extends BaseServiceImpl<User>
 	RoleRepositiory roleRepositiory;
 	
 	public UserServiceImpl(
+			BaseRepository<User> repository,
 			UserRepository userRepository,
 			RoleRepositiory roleRepositiory
 							) {
+		super(repository);
 		this.userRepository = userRepository;
 		this.roleRepositiory = roleRepositiory;
 	}

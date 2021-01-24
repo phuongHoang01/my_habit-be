@@ -1,5 +1,6 @@
 package com.myhabit.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -13,7 +14,10 @@ import javax.persistence.Table;
 
 import com.myhabit.core.BaseEntity;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn(name="habit_type", 
+discriminatorType = DiscriminatorType.INTEGER)
 public class Habit extends BaseEntity {
 
 	private String description;

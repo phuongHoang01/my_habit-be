@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,11 +30,11 @@ import com.myhabit.service.EatingHabitService;
 @RestController
 public class EatingHabitController {
 	
-	
+	@Autowired
 	private EatingHabitService eatingHabitService;
 
-	public EatingHabitController(EatingHabitService eatingHabitService) {
-		this.eatingHabitService = eatingHabitService;
+	public EatingHabitController() {
+		
 	}
 	
 	@GetMapping("/api/admin/eating-habits/get-eating-habit-by-user-id/{userId}")

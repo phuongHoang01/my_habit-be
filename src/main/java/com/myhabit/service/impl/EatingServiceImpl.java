@@ -10,17 +10,22 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.boot.context.properties.ConfigurationPropertiesBean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.myhabit.common.helper.RandomString;
 import com.myhabit.common.helper.UserHelper;
+import com.myhabit.core.BaseRepository;
 import com.myhabit.core.BaseServiceImpl;
 import com.myhabit.dto.eating_habit.EatingHabitByIUserIdDTO;
 import com.myhabit.dto.eating_habit.EatingHabitDTO;
 import com.myhabit.dto.eating_habit.InputEatingHabitCaloDTO;
 import com.myhabit.dto.habit.HabitDTO;
 import com.myhabit.dto.user.UserDTO;
+import com.myhabit.entities.DrinkingHabit;
 import com.myhabit.entities.EatingHabit;
 import com.myhabit.entities.Habit;
 import com.myhabit.entities.User;
@@ -30,21 +35,19 @@ import com.myhabit.repository.HabitRepository;
 import com.myhabit.repository.UserRepository;
 import com.myhabit.service.EatingHabitService;
 
-import net.bytebuddy.asm.Advice.This;
-
 @Service
 public class EatingServiceImpl extends HabitServiceImpl<EatingHabit> implements EatingHabitService{
 	
-
 	private UserRepository userRepository;
 	
-
 	private EatingHabitRepository eatingHabitRepository;
 	
 	public EatingServiceImpl(
-		@Qualifier("eatingHabitRepository") EatingHabitRepository eatingHabitRepository, 
+			BaseRepository<EatingHabit> repository,
+			HabitRepository<EatingHabit> habitRepository,
+			EatingHabitRepository eatingHabitRepository, 
 			UserRepository userRepository) {
-		super(eatingHabitRepository);
+		super(repository, habitRepository);
 		this.userRepository = userRepository;
 		this.eatingHabitRepository = eatingHabitRepository;
 	}
@@ -56,6 +59,7 @@ public class EatingServiceImpl extends HabitServiceImpl<EatingHabit> implements 
 	}
 	
 	public void inputCalo(InputEatingHabitCaloDTO inputEatingHabitCaloDTO) {
+		
 		Optional<EatingHabit> eatingHabit = findHabitByCurrentDay(LocalDate.now());
 		
 		UserPrincipal currentLoginUser = UserHelper.getCurrentUserLoginInSystem();
@@ -64,9 +68,10 @@ public class EatingServiceImpl extends HabitServiceImpl<EatingHabit> implements 
 
 		if(!eatingHabit.isPresent()) {
 			eatingHabit = Optional.of(convertToEntity(inputEatingHabitCaloDTO));
-			eatingHabit.get()
-			.setId(id)
-			.setCreateBy(currentLoginUser.getId());
+			eatingHabit
+				.get()
+				.setId(id)
+				.setCreateBy(currentLoginUser.getId());
 		}	
 		else {
 			eatingHabit

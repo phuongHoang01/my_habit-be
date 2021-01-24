@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 import com.myhabit.core.BaseRepository;
 import com.myhabit.entities.EatingHabit;
 @Repository
-@Qualifier(value = "eatingHabitRepository")
 public interface EatingHabitRepository extends HabitRepository<EatingHabit> {
 
 	

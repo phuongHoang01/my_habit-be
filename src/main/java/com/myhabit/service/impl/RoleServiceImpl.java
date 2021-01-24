@@ -8,13 +8,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.myhabit.common.helper.RandomString;
+import com.myhabit.core.BaseRepository;
 import com.myhabit.core.BaseServiceImpl;
 import com.myhabit.dto.role.RoleAddDTO;
 import com.myhabit.dto.role.RoleDTO;
 import com.myhabit.dto.user.UserDTO;
 import com.myhabit.entities.Role;
+import com.myhabit.entities.SleepingHabit;
 import com.myhabit.entities.User;
 import com.myhabit.entities.UserPrincipal;
+import com.myhabit.repository.HabitRepository;
 import com.myhabit.repository.RoleRepositiory;
 import com.myhabit.service.RoleService;
 
@@ -23,7 +26,10 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 	
 	private RoleRepositiory roleRepositiory;
 	
-	public RoleServiceImpl(RoleRepositiory roleRepositiory) {
+	public RoleServiceImpl(
+			BaseRepository<Role> repository,
+			RoleRepositiory roleRepositiory) {
+		super(repository);
 		this.roleRepositiory = roleRepositiory;
 	}
 

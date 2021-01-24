@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.myhabit.common.helper.DateTimeHelper;
 import com.myhabit.common.helper.UserHelper;
+import com.myhabit.core.BaseRepository;
 import com.myhabit.core.BaseServiceImpl;
 import com.myhabit.dto.eating_habit.EatingHabitDTO;
 import com.myhabit.dto.habit.HabitDTO;
@@ -31,24 +32,24 @@ import com.myhabit.entities.UserPrincipal;
 import com.myhabit.repository.HabitRepository;
 import com.myhabit.service.HabitService;
 
-
-
 public class HabitServiceImpl<E extends Habit> extends BaseServiceImpl<E> implements HabitService<E> {
-
 
 	private HabitRepository<E> habitRepository;
 	
-	public HabitServiceImpl(HabitRepository<E> habitRepository) {
-		// TODO Auto-generated constructor stub
+	public HabitServiceImpl(
+		BaseRepository<E> repository,
+		HabitRepository<E> habitRepository) {
+		super(repository);
 		this.habitRepository = habitRepository;
 	}
-
+	
 	public List<E> findHabitByUserId(String userId) {
 		return this.habitRepository.findHabitByUserId(userId);
 	}
 
 	public Optional<E> findHabitByCurrentDay(LocalDate now) {
-		return this.habitRepository.findHabitByCurrentDay(now);
+		Optional<E> result = this.habitRepository.findHabitByCreateAt(now);
+		return result;
 	}
 
 	public List<StaisticalHabitDTO> getTotalInWeek(String week) {

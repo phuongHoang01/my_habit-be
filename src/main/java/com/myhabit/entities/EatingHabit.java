@@ -1,5 +1,6 @@
 package com.myhabit.entities;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Date;
@@ -17,7 +18,8 @@ import com.myhabit.core.BaseEntity;
 
 @Entity
 @Table(name = "eat_habits")
-public class EatingHabit extends Habit {
+@DiscriminatorValue("2")
+public class EatingHabit extends Habit implements Serializable{
 	
 	@Column(name = "lunch_calo")
 	private float lunchCalo;

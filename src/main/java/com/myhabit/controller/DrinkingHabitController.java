@@ -3,6 +3,7 @@ package com.myhabit.controller;
 import java.time.DateTimeException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,9 @@ public class DrinkingHabitController {
 
 	private DrinkingHabitService drinkHabitService;
 
-	public DrinkingHabitController(DrinkingHabitService drinkHabitService) {
+	public DrinkingHabitController(
+			
+			DrinkingHabitService drinkHabitService) {
 		this.drinkHabitService = drinkHabitService;
 	}
 
@@ -39,7 +42,7 @@ public class DrinkingHabitController {
 		}
 	}
 
-	@GetMapping("/api/drinking-habits/statistical-total-calo-in-week")
+	@GetMapping("/api/drinking-habits/statistical-total-mili-in-week")
 	public ResponseEntity<List<StaisticalHabitDTO>> getdrinkingHabitTotalCaloInWeek(
 			@RequestParam(required = true) String week) {
 		try {
@@ -56,7 +59,7 @@ public class DrinkingHabitController {
 		}
 	}
 
-	@GetMapping("/api/drinking-habits/statistical-total-calo-in-month")
+	@GetMapping("/api/drinking-habits/statistical-total-mili-in-month")
 	public ResponseEntity<List<StaisticalHabitDTO>> getdrinkingHabitTotalCaloInMonth(
 			@RequestParam(required = true) String month) {
 		try {

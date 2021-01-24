@@ -12,11 +12,10 @@ import com.myhabit.common.helper.SendDataOrConvertDataFromClientImpl;
 
 public abstract class BaseServiceImpl<E extends BaseEntity>
 										implements BaseService<E> {
-
-	@Autowired
 	private BaseRepository<E> repository;
 	
-	public BaseServiceImpl() {
+	public BaseServiceImpl(BaseRepository<E> repository) {
+		this.repository = repository;
 	}
 
 	public List<E> findAllByActive(boolean active) {

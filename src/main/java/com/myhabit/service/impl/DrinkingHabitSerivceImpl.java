@@ -5,31 +5,38 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.myhabit.common.helper.RandomString;
 import com.myhabit.common.helper.UserHelper;
+import com.myhabit.core.BaseRepository;
 import com.myhabit.dto.drinking_habit.InputDrinkingHabitDTO;
 import com.myhabit.entities.DrinkingHabit;
 import com.myhabit.entities.EatingHabit;
 import com.myhabit.entities.UserPrincipal;
 import com.myhabit.repository.DrinkingHabitRepository;
-
+import com.myhabit.repository.HabitRepository;
 import com.myhabit.service.DrinkingHabitService;
 import com.myhabit.service.HabitService;
 
 @Service
 public class DrinkingHabitSerivceImpl extends HabitServiceImpl<DrinkingHabit> implements DrinkingHabitService {
 	
-	
+
 	private DrinkingHabitRepository drinkingHabitRepository;
 	
+	
 	public DrinkingHabitSerivceImpl(
-		@Qualifier("drinkingHabitRepository")	
-		DrinkingHabitRepository drinkingHabitRepository) {
-		super(drinkingHabitRepository);
+			BaseRepository<DrinkingHabit> repository,
+			HabitRepository<DrinkingHabit> habitRepository,
+			DrinkingHabitRepository drinkingHabitRepository) {
+		super(repository, habitRepository);
 		this.drinkingHabitRepository = drinkingHabitRepository;
+		// TODO Auto-generated constructor stub
 	}
+
 	
 
 	public void inputMiliWater(InputDrinkingHabitDTO inputDrinkingHabitDTO) {

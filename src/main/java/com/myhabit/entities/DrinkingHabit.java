@@ -1,8 +1,10 @@
 package com.myhabit.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -10,7 +12,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "drinking_habit")
-public class DrinkingHabit extends Habit {
+@DiscriminatorValue("1")
+public class DrinkingHabit extends Habit implements Serializable {
 	
 	@Column(name = "user_id")
 	private String userId;

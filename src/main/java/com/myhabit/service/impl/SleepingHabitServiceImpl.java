@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 import com.myhabit.common.helper.DateTimeHelper;
 import com.myhabit.common.helper.RandomString;
 import com.myhabit.common.helper.UserHelper;
+import com.myhabit.core.BaseRepository;
 import com.myhabit.dto.sleeping_habit.InputSleepingHourDTO;
+import com.myhabit.repository.HabitRepository;
 import com.myhabit.repository.SleepingHabitResponsitory;
+import com.myhabit.entities.EatingHabit;
 import com.myhabit.entities.SleepingHabit;
 import com.myhabit.entities.UserPrincipal;
 import com.myhabit.service.HabitService;
@@ -23,12 +26,13 @@ import com.myhabit.service.SleepingHabitService;
 public class SleepingHabitServiceImpl extends HabitServiceImpl<SleepingHabit> 
 										implements SleepingHabitService {
 	
-	SleepingHabitResponsitory sleepingHabitResponsitory;
+	private SleepingHabitResponsitory sleepingHabitResponsitory;
 	
 	public SleepingHabitServiceImpl(
-			@Qualifier("sleepingHabitResponsitory")
+			BaseRepository<SleepingHabit> repository,
+			HabitRepository<SleepingHabit> habitRepository,
 			SleepingHabitResponsitory sleepingHabitResponsitory) {
-		super(sleepingHabitResponsitory);
+		super(repository, habitRepository);
 		this.sleepingHabitResponsitory = sleepingHabitResponsitory;
 	}
 	
@@ -42,10 +46,10 @@ public class SleepingHabitServiceImpl extends HabitServiceImpl<SleepingHabit>
 		if(!sleepingHabit.isPresent()) {
 			sleepingHabit = Optional.of(new SleepingHabit());
 			sleepingHabit.get()
-			.setCreateBy(currentLoginUser.getId())
-			.setId(id)
-			.setFromHour(DateTimeHelper.convertStringToLocalDateTime(inputSleepingHourDTO.fromHour))
-			.setToHour(DateTimeHelper.convertStringToLocalDateTime(inputSleepingHourDTO.toHour));
+				.setCreateBy(currentLoginUser.getId())
+				.setId(id)
+				.setFromHour(DateTimeHelper.convertStringToLocalDateTime(inputSleepingHourDTO.fromHour))
+				.setToHour(DateTimeHelper.convertStringToLocalDateTime(inputSleepingHourDTO.toHour));
 		}	
 		else {
 			sleepingHabit
