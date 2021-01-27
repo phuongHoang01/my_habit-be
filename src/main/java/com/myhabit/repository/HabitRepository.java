@@ -28,7 +28,7 @@ public interface HabitRepository<E extends Habit> extends BaseRepository<E>{
 	
 	@Query("SELECT h "
 			+ "FROM User u, #{#entityName} h "
-			+ "WHERE h.createAt BETWEEN :fromDate AND :toDate AND u.id = :userId AND u.id = h.id")
+			+ "WHERE h.createAt BETWEEN :fromDate AND :toDate AND u.id = :userId AND u.id = h.userId")
 	public List<E> findHabitByCreateAtBetween(@Param("fromDate") LocalDate fromDate, @Param("toDate") LocalDate toDate, @Param("userId") String userId);
 }
 
